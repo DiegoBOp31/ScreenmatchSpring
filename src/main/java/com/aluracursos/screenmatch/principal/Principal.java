@@ -31,6 +31,9 @@ public class Principal {
                     1 - Buscar series
                     2 - Buscar episodios
                     3 - Mostrar series buscadas
+                    4 - Buscar series por título
+                    5 - Tpo 5 mejores series
+                    6 - Buscar series por categoria
                     
                     0 - Salir
                     """;
@@ -47,6 +50,15 @@ public class Principal {
                     break;
                 case 3:
                     mostrarSeriesBuscadas();
+                    break;
+                case 4:
+                    buscarSeriesPorTitulo();
+                    break;
+                case 5:
+                    buscarTpo5Series();
+                    break;
+                case 6:
+                    buscarSeriesPorCategoria();
                     break;
                 case 0:
                     System.out.println("Cerrando la aplicación...");
@@ -115,6 +127,32 @@ public class Principal {
                 .forEach(System.out::println);
     }
 
+    private void buscarSeriesPorTitulo(){
+        System.out.println("Escribe el nombre de la serie de la cual quieres buscar");
+        var nombreSerie = teclado.nextLine();
+
+        Optional<Serie> serieBuscada = repositorio.findByTituloContainsIgnoreCase(nombreSerie);
+
+        if(serieBuscada.isPresent()){
+            System.out.println("La serie buscada es: "+serieBuscada.get());
+        }else{
+            System.out.println("Serie no encontrada");
+        }
+    }
+
+    private void buscarTpo5Series(){
+        List<Serie> topSeries = repositorio.findTop5ByOrderByEvaluacionDesc();
+        topSeries.forEach(s-> System.out.println("Serie: "+s.getTitulo()+" Evaluación: "+s.getEvaluacion()));
+    }
+
+    private void buscarSeriesPorCategoria(){
+        System.out.println("Escribe el genero/categoria de la serie que deseas buscar");
+        var genero = teclado.nextLine();
+        var categoria = Categoria.fromEspanol(genero);
+        List<Serie> seriesPorCategoria = repositorio.findByGenero(categoria);
+        System.out.println("Las series de la categoria "+genero);
+        seriesPorCategoria.forEach(System.out::println);
+    }
 //    public static Categoria fromString(String text) {
 //        for (Categoria categoria : Categoria.values()) {
 //            if (categoria.categoriaOmdb.equalsIgnoreCase(text)) {
