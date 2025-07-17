@@ -17,21 +17,10 @@ import java.util.ArrayList;
 import java.util.List;
 
 @SpringBootApplication
-public class ScreenmatchApplication implements CommandLineRunner {
+public class ScreenmatchApplication{
 
 	public static void main(String[] args) {
 		SpringApplication.run(ScreenmatchApplication.class, args);
 	}
-
-	@Autowired//Indicar que haga una inyección de dependencias
-	private SerieRepository repository;
-	@Override
-	public void run(String... args) throws Exception {
-		Principal principal = new Principal(repository);
-		principal.muestraElMenu();
-
-		//EjemploStreams ejemploStreams = new EjemploStreams();
-		//ejemploStreams.muestraEjemplo();
-
-	}
 }
+
